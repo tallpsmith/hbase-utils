@@ -1,0 +1,27 @@
+Introduction
+============
+
+When I was started investigating HBase, I was initially thrown by the heavy use of byte[]'s.
+There is a clear necessity within HBase to deal with these at the lowest level to support flexible storage options, but
+there are many common cases where the developer may wish for a more expressive API that leaves there code clean and readable.
+
+My goal here was to leverage a common set of patterns for readability and flexibility.  Initially the bulk of
+the utility classes revolve around the use of the Builder pattern.
+
+First expressed in HBASE-2051, this package has been created to assist the HBase client developer.
+
+Examples:
+
+HTable hTable = ....
+
+PutBuilder builder = new PutBuilder(hTable);
+// first Row
+builder.withRowKey(1stRowKey).withColumnFamily("foo")
+    .put("columnA", valueA)
+    .put("columnB",valueB);
+// secondRow
+builder.withRowKey(2ndRowKey).withColumnFamily("eek")
+    .put("columnC", valueC)
+    .put("columnD",valueD);
+..
+builder.putAll();
