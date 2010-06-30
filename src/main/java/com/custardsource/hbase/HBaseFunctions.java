@@ -1,13 +1,18 @@
 package com.custardsource.hbase;
 
+import com.google.common.base.Function;
+import com.google.common.collect.Collections2;
+import org.apache.hadoop.hbase.util.Bytes;
+
 import java.util.Arrays;
 import java.util.Collection;
 
-import org.apache.hadoop.hbase.util.Bytes;
 
-import com.google.common.base.Function;
-import com.google.common.collect.Collections2;
-
+/**
+ * Provides basic Google Guava/Collections Functions for transformations back and forth for common cases,
+ * such as String->byte[].
+ *  
+ */
 public class HBaseFunctions {
 
     public static final Function<String, byte[]> STRING_TO_BYTES = new Function<String, byte[]>() {

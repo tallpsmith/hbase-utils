@@ -1,9 +1,5 @@
 package com.custardsource.hbase;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.hadoop.hbase.HConstants;
 import org.apache.hadoop.hbase.client.HTable;
 import org.apache.hadoop.hbase.client.Put;
@@ -11,6 +7,31 @@ import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.hadoop.hbase.util.Writables;
 import org.apache.hadoop.io.Writable;
 
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * A Builder Pattern helper class to allow expressive Put modifications.
+ *
+ *
+ * <pre>
+ HTable hTable = ....
+
+PutBuilder builder = new PutBuilder(hTable);
+// first Row
+builder.withRowKey(1stRowKey).withColumnFamily("foo")
+    .put("columnA", valueA)
+    .put("columnB",valueB);
+// secondRow
+builder.withRowKey(2ndRowKey).withColumnFamily("eek")
+    .put("columnC",valueC)
+    .put("columnD",valueD);
+..
+builder.putAll();
+ </pre>
+ */
 public class PutBuilder {
 
     private final HTable hTable;
@@ -103,6 +124,31 @@ public class PutBuilder {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public PutBuilder withRowKey(int rowKey) {
+        this.currentRowKey = Bytes.toBytes(rowKey);
+        return this;
+    }
+
+    public PutBuilder withRowKey(long rowKey) {
+        this.currentRowKey = Bytes.toBytes(rowKey);
+        return this;
+    }
+
+    public PutBuilder withRowKey(String rowKey) {
+        this.currentRowKey = Bytes.toBytes(rowKey);
+        return this;
+    }
+
+    public PutBuilder withRowKey(double rowKey) {
+        this.currentRowKey = Bytes.toBytes(rowKey);
+        return this;
+    }
+
+    public PutBuilder withRowKey(ByteBuffer rowKey) {
+        this.currentRowKey = Bytes.toBytes(rowKey);
+        return this;
     }
 
 }
